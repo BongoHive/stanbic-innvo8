@@ -76,7 +76,9 @@ const useStyles = makeStyles((theme: any) => ({
     paddingRight: theme.spacing(2)
   },
   logoImage: {
-    marginLeft: theme.spacing(4)
+    marginLeft: theme.spacing(4),
+    height: '100%',
+    alignItems: 'center'
   },
   contentBody: {
     flexGrow: 1,
@@ -272,6 +274,13 @@ function SignIn() {
                     <Link href="/forgot-password" variant="body2">
                       Forgot password?
                     </Link>
+                  </Grid>
+                  <Grid container>
+                    <Grid item xs>
+                      <Link href="/signup" variant="body2">
+                        Sign Up
+                      </Link>
+                    </Grid>
                   </Grid>
                 </Grid>
               </form>

@@ -163,7 +163,8 @@ function SignUp() {
   });
   const onSubmit = (data: Data) => {
     const admin = {
-      ...data
+      ...data,
+      isActive: true
     };
     mutate(admin);
   };
@@ -240,17 +241,24 @@ function SignUp() {
                   {...register('password')}
                   autoComplete="off"
                 />
-                <TextField
-                  error={!!errors.userType}
-                  className={classes.textField}
-                  defaultValue="Team Lead"
-                  fullWidth
-                  size="small"
-                  label="Role"
-                  type="text"
-                  variant="outlined"
-                  {...register('userType')}
-                  disabled
+                <Controller
+                  render={({ field: { onChange, value } }) => (
+                    <TextField
+                      select
+                      label="userType"
+                      variant="outlined"
+                      value={value}
+                      onChange={onChange}
+                      margin="normal"
+                      size="small"
+                      fullWidth
+                    >
+                      <MenuItem value="Team Lead">TeamLead</MenuItem>
+                    </TextField>
+                  )}
+                  rules={{ required: true }}
+                  name="userType"
+                  control={control}
                 />
                 <Controller
                   render={({ field: { onChange, value } }) => (

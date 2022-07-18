@@ -12,6 +12,7 @@ import { TeamRoutes } from './views/TeamView/TeamRoutes';
 import NotFoundView from './views/errors/NotFoundView';
 import { JudgeRoutes } from './views/JudgeView/JudgeRoutes';
 import Logout from './views/auth/logout';
+import Homepage from './views/Hompage';
 
 const routes = [
   {
@@ -23,7 +24,8 @@ const routes = [
       { path: 'logout', element: <Logout /> }
     ]
   },
-  { path: '/', element: <SignIn /> },
+  { path: '/', element: <Homepage /> },
+  { path: 'login', element: <SignIn /> },
   { path: 'signup', element: <SignUp /> },
   { path: 'completeSignUp', element: <CompleteSignUp /> },
   { path: 'forgot-password', element: <ForgotPassword /> },

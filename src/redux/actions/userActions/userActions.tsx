@@ -15,6 +15,7 @@ export interface User {
   password: string;
   branch: string;
   gender: string;
+  teamId?: string;
   userType: string;
   token: string;
   createdAt: Date;

@@ -20,14 +20,24 @@ const getIdeasByTeamLead = async (
   return data.data;
 };
 
+const getIdeasByTeamId = async (
+  id: string | undefined
+): Promise<Record<any, any>> => {
+  const { data } = await axios.get(`/Innovation/view_innovation_team/${id}`);
+  return data.data;
+};
+
 const ProposalList: React.FC<React.PropsWithChildren<unknown>> = () => {
   const navigate = useNavigate();
 
   const { user } = useSelector((state: RootState) => state.user);
 
-  const { data, error, isLoading } = useQuery(['submissions'], () =>
-    getIdeasByTeamLead(user?._id)
-  );
+  const { data, error, isLoading } = useQuery(['submissions'], () => {
+    if (user?.teamId) {
+      return getIdeasByTeamId(user?.teamId);
+    }
+    return getIdeasByTeamLead(user?._id);
+  });
 
   if (isLoading) {
     return <Loading size={40} />;
@@ -112,6 +122,7 @@ const ProposalList: React.FC<React.PropsWithChildren<unknown>> = () => {
           const [innovationId] = tableMeta.rowData;
           return (
             <Button
+              disabled={user?.userType === 'Team Member'}
               variant="contained"
               color="primary"
               onClick={() =>

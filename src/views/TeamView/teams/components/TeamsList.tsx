@@ -31,17 +31,25 @@ const getUser = async (id: string | undefined): Promise<any[]> => {
   const { data } = await axios.get(`/Team/view_team_by_lead/${id}`);
   return data.data;
 };
+const getTeamById = async (id: string | undefined): Promise<any[]> => {
+  const { data } = await axios.get(`/Team/view_team/${id}`);
+  return data.data;
+};
 
 const ListTeamMembers = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.user);
+
   const { open, handleClickOpen, handleClose, selected, setSelected } =
     useModalWithData();
-  const { data, error, isLoading } = useQuery(['Teams'], () =>
-    getUser(user?._id)
-  );
+  const { data, error, isLoading } = useQuery(['Teams'], () => {
+    if (user?.teamId) {
+      return getTeamById(user?.teamId);
+    }
+    return getUser(user?._id);
+  });
 
-  console.log(data, 'team data');
+  console.log(user, 'user data');
   if (isLoading) {
     return <Loading size={40} />;
   }
@@ -110,6 +118,7 @@ const ListTeamMembers = () => {
 
           return (
             <Button
+              disabled={user?.userType === 'Team Member'}
               color="primary"
               onClick={() => {
                 setSelected(userId);
@@ -159,6 +168,7 @@ const ListTeamMembers = () => {
           return (
             <Tooltip title="Edit">
               <IconButton
+                disabled={user?.userType === 'Team Member'}
                 onClick={() => navigate(`/app/teams/edit/${userId}`)}
                 size="large"
               >
@@ -177,9 +187,13 @@ const ListTeamMembers = () => {
       <Card>
         <CardContent>
           <Typography>No team found</Typography>
-          <Typography>
-            Please add a team by clicking on the create new team button
-          </Typography>
+          {user?.userType === 'Team Member' ? (
+            <Typography>Please contact your team lead to add a team</Typography>
+          ) : (
+            <Typography>
+              Please add a team by clicking on the create new team button
+            </Typography>
+          )}
         </CardContent>
       </Card>
     );

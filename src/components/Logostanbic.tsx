@@ -5,7 +5,7 @@ import React, { FC } from 'react';
 
 const useStyles = makeStyles(() => ({
   logo: {
-    height: 50,
+    height: 100,
     width: '100%',
     objectFit: 'contain'
   }
@@ -16,7 +16,7 @@ const Stanbiclogo: FC<React.PropsWithChildren<unknown>> = (props) => {
   return (
     <img
       alt="Stanbic Logo"
-      src="/images/stanbic_logo.png"
+      src="/images/newlogo.png"
       {...props}
       className={classes.logo}
     />
